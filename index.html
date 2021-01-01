@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Picker</title>
+</head>
+<body>
+    <button>
+        Pick Contact
+    </button>
+
+    <script>
+        let btn = document.querySelector("button");
+
+        btn.addEventListener("click", async ()=>{
+            if ("contacts" in navigator) {
+                try {
+                    let props = await navigator.contacts.getProperties();
+                    console.log(props);
+                } catch (error) {
+                    console.error(error)
+                }               
+            }else{
+                alert("Not supported");
+            }
+        })
+
+        
+    </script>
+</body>
+</html>
