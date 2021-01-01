@@ -1,32 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact Picker</title>
-</head>
-<body>
-    <button>
-        Pick Contact
-    </button>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+    </style>
+  </head>
+  <body>
+    <button>Pick Contact</button>
+
+    <p>Errors - </p><br>
+    <textarea id="text1" style="width: 100%; height: 60px; color: red; resize:both;" disabled></textarea>
+    <p>Return Values - </p><br>
+    <textarea id="text2" style="width: 100%; height: 60px; color: green; resize:both;" disabled></textarea>
+
 
     <script>
-        let btn = document.querySelector("button");
+      let btn = document.querySelector("button");
+      let err = document.querySelector("#text1")
+      let sucess = document.querySelector("#text2");
 
-        btn.addEventListener("click", async ()=>{
-            if ("contacts" in navigator) {
-                try {
-                    let props = await navigator.contacts.getProperties();
-                    console.log(props);
-                } catch (error) {
-                    console.error(error)
-                }               
-            }else{
-                alert("Not supported");
-            }
-        })
+      btn.addEventListener("click", async () => {
+        if ("contacts" in navigator) {
+          try {
+            let props = await navigator.contacts.getProperties();
 
-        
+            let selected = await navigator.contacts.select(props, {
+              multiple: true,
+            });
+
+            sucess.value = JSON.stringify(selected);
+          } catch (error) {
+            err.value = error;
+          }
+        } else {
+          alert("Not supported");
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
